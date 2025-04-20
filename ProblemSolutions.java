@@ -1,7 +1,7 @@
 /******************************************************************
  *
  *   ADD YOUR NAME / SECTION NUMBER HERE
- *
+ *      Philip Garbis / 002
  *   This java file contains the problem solutions of canFinish and
  *   numGroups methods.
  *
@@ -82,7 +82,41 @@ class ProblemSolutions {
                                         prerequisites); 
 
         // ADD YOUR CODE HERE - ADD YOUR NAME / SECTION AT TOP OF FILE
-        return false;
+        // Build the in-degree array to count prerequisites for each exam
+        int[] inDegree = new int[numExams];
+        ArrayList<Integer>[] adj2 = getAdjList(numExams, prerequisites);
+
+        for (int u = 0; u < numExams; u++) {
+            for (int v : adj2[u]) {
+                inDegree[v]++;
+            }
+        }
+
+        // Queue to process exams with no prerequisites
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < numExams; i++) {
+            if (inDegree[i] == 0) {
+                queue.offer(i);
+            }
+        }
+
+        int visited = 0;  // Count of exams we can take
+
+        // Topological sort using Kahn’s algorithm
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            visited++;
+
+            for (int neighbor : adj2[node]) {
+                inDegree[neighbor]--; // Reduce prerequisite count
+                if (inDegree[neighbor] == 0) {
+                    queue.offer(neighbor); // Ready to take this exam
+                }
+            }
+        }
+
+        // If we visited all exams, return true. Otherwise, there's a cycle.
+        return visited == numExams;
 
     }
 
@@ -192,7 +226,30 @@ class ProblemSolutions {
 
         // YOUR CODE GOES HERE - you can add helper methods, you do not need
         // to put all code in this method.
-        return -1;
+        int n = adjMatrix.length;
+        boolean[] visited = new boolean[n];
+        int count = 0;
+
+        // Visit each person (node)
+        for (int k = 0; k < n; k++) {
+            if (!visited[k]) {
+                dfs(adjMatrix, visited, k); // explore this group
+                count++; // finished exploring one group
+            }
+        }
+
+        return count;
+    }
+
+    // Helper DFS method using adjacency matrix directly
+    private void dfs(int[][] matrix, boolean[] visited, int node) {
+        visited[node] = true;
+        for (int neighbor = 0; neighbor < matrix.length; neighbor++) {
+            // Ensure symmetry: if neighbor connected AND not visited, explore it
+            if ((matrix[node][neighbor] == 1 || matrix[neighbor][node] == 1) && !visited[neighbor]) {
+                dfs(matrix, visited, neighbor);
+            }
+        }
     }
 
 }

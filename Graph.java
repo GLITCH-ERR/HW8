@@ -1,7 +1,7 @@
 /******************************************************************
  *
  *   YOUR NAME / SECTION NUMBER
- *
+ *    Philip Garbis / 002
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
  *
@@ -105,6 +105,30 @@ public class Graph {
   public int findRoot() {
 
     // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME/SECTION AT TOP OF FILE
-    return -1;
+    // Array to store number of incoming edges for each vertex
+    int[] incoming = new int[numVertices];
+
+    // Count incoming edges for every vertex
+    for (int src = 0; src < numVertices; src++) {
+        for (int dest : adjListArr[src]) {
+            incoming[dest]++;
+        }
+    }
+
+    int root = -1;
+
+    // Look for vertices with no incoming edges
+    for (int i = 0; i < numVertices; i++) {
+        if (incoming[i] == 0) {
+            if (root != -1) {
+                // More than one root found, return -1
+                return -1;
+            }
+            root = i;
+        }
+    }
+
+    // Return -1 if no root found, otherwise return value of root vertex
+    return root == -1 ? -1 : vertexValues.get(root);
   } 
 }
