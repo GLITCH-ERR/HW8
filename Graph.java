@@ -105,7 +105,7 @@ public class Graph {
   public int findRoot() {
 
     // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME/SECTION AT TOP OF FILE
-    // Array to store number of incoming edges for each vertex
+    // Array to store number of incoming edges for each vertex 
     int[] incoming = new int[numVertices];
 
     // Count incoming edges for every vertex

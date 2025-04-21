@@ -247,7 +247,7 @@ class ProblemSolutions {
         for (int neighbor = 0; neighbor < matrix.length; neighbor++) {
             // Ensure symmetry: if neighbor connected AND not visited, explore it
             if ((matrix[node][neighbor] == 1 || matrix[neighbor][node] == 1) && !visited[neighbor]) {
-                dfs(matrix, visited, neighbor);
+                dfs(matrix, visited, neighbor); 
             }
         }
     }
